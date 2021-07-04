@@ -1,8 +1,8 @@
 "use strict";
+const supergoose = require("@code-fellows/supergoose");
 
 const base64 = require("base-64");
 const { app } = require("../src/server");
-const supergoose = require("@code-fellows/supergoose");
 const mockRequest = supergoose(app);
 
 describe("AUTH ROUTES", () => {
@@ -14,8 +14,7 @@ describe("AUTH ROUTES", () => {
       .then((response) => {
         console.log(response);
         expect(response.body.username).toEqual(body.username);
-      })
-      .catch((err) => console.log(err.message));
+      });
   });
 
   it("can sign a User in", async () => {
@@ -26,15 +25,13 @@ describe("AUTH ROUTES", () => {
     mockRequest
       .post("/signup")
       .send(body)
-      .then(() => {
+      .then((res) => {
         mockRequest
           .post("/signin")
           .set("authorization", `Basic ${testUserName}:${testPassword}`)
           .then((response) => {
             expect(response.body.username).toEqual(body.username);
-          })
-          .catch((err) => console.log(err.message));
-      })
-      .catch((err) => console.log(err.message));
+          });
+      });
   });
 });
