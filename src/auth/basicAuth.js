@@ -8,7 +8,6 @@ const authenticate = async (req, res, next) => {
     const decodedString = base64.decode(encodedString);
     let [username, password] = decodedString.split(":");
     const user = await userModel.findOne({ username: username });
-    console.log(user);
     const isValid = await bcrypt.compare(password, user.password);
     if (isValid) {
       req.user = user;
